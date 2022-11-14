@@ -1,3 +1,20 @@
+# Packages included:
+
+install.packages("tidyverse")
+install.packages("readr")
+install.packages("ggplot2")
+install.packages("lubridate")
+install.packages("hms")
+install.packages("dplyr")
+install.packages("scales")
+library("readr")
+library("tidyverse")
+library("ggplot2")
+library("lubridate")
+library("dplyr")
+library("hms")
+library("scales")
+
 # 1- Load dataset into RStudio:
 
 tripdata <- read.csv("tripdata_cleaned.csv")
