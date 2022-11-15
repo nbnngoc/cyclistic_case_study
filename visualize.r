@@ -63,7 +63,7 @@ remove(user_type_2)
 
 # 3.1- Chart 1: Number of rides by Day of week
 
-ggplot(day_of_week, aes(x = reorder(day_of_week, day_order), 
+gp_1 <- ggplot(day_of_week, aes(x = reorder(day_of_week, day_order), 
                         y = num_rides,
                         fill = num_rides,
                         width = 0.6)) + 
@@ -73,15 +73,16 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
   geom_label(aes(label = scales::comma(num_rides)),
              fill = NA,
              size = 3,
-             vjust = -0.2,
+             vjust = -0.1,
+             position = position_stack(vjust = 1),
              label.size = NA,
              family = "serif") +
   theme_minimal() +
   theme(text = element_text(size = 12),
         title = element_text(size = 11)) +
-  theme(axis.text.x = element_text(vjust = 2.5),
-        axis.title.y = element_text(vjust = 2.5)) +
-  theme(plot.title = element_text(vjust = 2.5)) +
+  theme(axis.text.x = element_text(vjust = 1.5),
+        axis.title.y = element_text(vjust = 1.5)) +
+  theme(plot.title = element_text(vjust = 1.5)) +
   theme(text = element_text(family = "serif")) +
   labs(x = "Day of Week", 
        y = "Number of rides") +
@@ -91,7 +92,7 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
 
 # 3.2- Chart 2: Average ride length by Day of week
 
-ggplot(day_of_week, aes(x = reorder(day_of_week, day_order), 
+gp_2 <- ggplot(day_of_week, aes(x = reorder(day_of_week, day_order), 
                                   y = round(as.duration(avg_ride_length)/60, digits = 2),
                                   group = 1)) +
   geom_point() +
@@ -104,9 +105,9 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
              family = "serif") +
   scale_y_continuous(limits = c(10,25)) +
   theme_minimal() +
-  theme(axis.text.x = element_text(vjust = 2.5),
-        axis.title.y = element_text(vjust = 2.5)) +
-  theme(plot.title = element_text(vjust = 2.5)) +
+  theme(axis.text.x = element_text(vjust = 1.5),
+        axis.title.y = element_text(vjust = 1.5)) +
+  theme(plot.title = element_text(vjust = 1.5)) +
   theme(text = element_text(family = "serif")) +
   labs(x = "Day of Week", 
        y = "Average ride length") +
@@ -116,10 +117,10 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
 
 user_type_v4 <- mutate(user_type, perc_num_rides = round(num_rides/ sum(num_rides), digits = 2))
 
-ggplot(user_type_v4, aes(x = "", 
-                         y = perc_num_rides, 
-                         fill = member_casual,
-                         levels = c("casual", "member"))) +
+gp_3 <- ggplot(user_type_v4, aes(x = "", 
+                                 y = perc_num_rides, 
+                                 fill = member_casual,
+                                 levels = c("casual", "member"))) +
   theme_minimal() +
   geom_col(color = "black",
            fill = c("#F8766D", "#00BFC4")) +
@@ -128,26 +129,26 @@ ggplot(user_type_v4, aes(x = "",
                                 "(",
                                 scales::percent(perc_num_rides), 
                                 ")")),
-            position = position_stack(vjust = 0.5),
-            vjust = -0.2,
-            hjust = 0.8,
-            family = "serif",
-            label.size = NA,
-            size = 3) +
+             position = position_stack(vjust = 0.5),
+             vjust = -0.2,
+             hjust = 0.8,
+             family = "serif",
+             label.size = NA,
+             size = 3) +
   theme(legend.text = element_text(size = 10),
         legend.key = element_rect(color = "black")) +
   guides(fill = guide_legend(override.aes = aes(label = ""), 
                              byrow = TRUE)) +
   coord_polar(theta = "y") +
   theme(text = element_text(family = "serif")) +
-  labs(y = "Number of rides",
+  labs(y = "Percentage of rides",
        x = "",
-       title = "Ride percentage by user type",
+       title = "Percentage of rides by user type",
        fill = "")
   
 # 3.4- Chart 4: Average ride length by User type
 
-ggplot(user_type, aes(x = member_casual, 
+gp_4 <- ggplot(user_type, aes(x = member_casual, 
                                 y = round(as.duration(avg_ride_length)/60, digits = 2),
                                 group = 1)) +
   geom_bar(stat = 'identity',
@@ -157,13 +158,13 @@ ggplot(user_type, aes(x = member_casual,
   geom_label(aes(label = scales::comma(avg_ride_length)),
              fill = NA,
              size = 3,
-             vjust = -0.5,
+             vjust = -0.1,
              label.size = NA,
              family = "serif") +
   theme_minimal() +
-  theme(axis.text.x = element_text(vjust = 2.5),
-        axis.title.y = element_text(vjust = 2.5)) +
-  theme(plot.title = element_text(vjust = 2.5)) +
+  theme(axis.text.x = element_text(vjust = 1.5),
+        axis.title.y = element_text(vjust = 1.5)) +
+  theme(plot.title = element_text(vjust = 1.5)) +
   theme(text = element_text(family = "serif")) +
   labs(x = "User type", 
        y = "Average ride length") +
@@ -199,9 +200,9 @@ gp_5 <- ggplot(user_type_v3, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", 
         legend.justification = "center",
         legend.box.margin=margin(-10,-10,-10,-10),
         legend.text = element_text(size = 10),
-        axis.text.x = element_text(vjust = 2.5),
-        axis.title.y = element_text(vjust = 2.5)) +
-  theme(plot.title = element_text(vjust = 2.5)) +
+        axis.text.x = element_text(vjust = 1.5),
+        axis.title.y = element_text(vjust = 1.5)) +
+  theme(plot.title = element_text(vjust = 1.5)) +
   theme(text = element_text(family = "serif")) +
     labs(x = "Day of week", 
        y = "Average ride length",
