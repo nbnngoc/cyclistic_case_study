@@ -114,6 +114,8 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
 
 # 3.3- Chart 3: Number of rides by User type
 
+user_type_v4 <- mutate(user_type, perc_num_rides = round(num_rides/ sum(num_rides), digits = 2))
+
 ggplot(user_type_v4, aes(x = "", 
                          y = perc_num_rides, 
                          fill = member_casual,
