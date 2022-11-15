@@ -114,31 +114,34 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
 
 # 3.3- Chart 3: Number of rides by User type
 
-ggplot(user_type, aes(x = member_casual, 
-                                y = num_rides,
-                                fill = num_rides,
-                                width = 0.6)) + 
-  geom_bar(stat = 'identity',
-           fill = c("#F8766D", "#00BFC4"),
-           color = "black") +
-  geom_label(aes(label = scales::comma(num_rides)),
-             fill = NA,
-             size = 3,
-             vjust = -0.2,
-             label.size = NA,
-             family = "serif") +
+ggplot(user_type_v4, aes(x = "", 
+                         y = perc_num_rides, 
+                         fill = member_casual,
+                         levels = c("casual", "member"))) +
   theme_minimal() +
-  theme(text = element_text(size = 12),
-        title = element_text(size = 11)) +
-  theme(axis.text.x = element_text(vjust = 2.5),
-        axis.title.y = element_text(vjust = 2.5)) +
-  theme(plot.title = element_text(vjust = 2.5)) +
+  geom_col(color = "black",
+           fill = c("#F8766D", "#00BFC4")) +
+  geom_label(aes(label = paste0(scales::comma(num_rides), 
+                                "\n",
+                                "(",
+                                scales::percent(perc_num_rides), 
+                                ")")),
+            position = position_stack(vjust = 0.5),
+            vjust = -0.2,
+            hjust = 0.8,
+            family = "serif",
+            label.size = NA,
+            size = 3) +
+  theme(legend.text = element_text(size = 10),
+        legend.key = element_rect(color = "black")) +
+  guides(fill = guide_legend(override.aes = aes(label = ""), 
+                             byrow = TRUE)) +
+  coord_polar(theta = "y") +
   theme(text = element_text(family = "serif")) +
-  labs(x = "User type", 
-       y = "Number of rides") +
-  ggtitle("Number of rides by user type") +
-  scale_y_continuous(labels = scales::comma) +
-  scale_fill_continuous(labels = scales::comma)
+  labs(y = "Number of rides",
+       x = "",
+       title = "Ride percentage by user type",
+       fill = "")
   
 # 3.4- Chart 4: Average ride length by User type
 
