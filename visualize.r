@@ -163,3 +163,48 @@ gp_4 <- ggplot(user_type, aes(x = member_casual,
   labs(x = "User type", 
        y = "Average ride length") +
   ggtitle("Average ride length by user type")
+
+# 3.5- Chart 5: Average ride length by user type during the week
+
+user_type_v2 <- tripdata %>% 
+  group_by(day_of_week, member_casual) %>% 
+  summarise(avg_ride_length = round(seconds_to_period(mean(as_hms(ride_length))), digits = 0))
+
+user_type_v3 <- pivot_wider(user_type_v2,
+                            names_from = member_casual,
+                            values_from = avg_ride_length,
+                            names_prefix = "avg_ride_length_")
+
+gp_5 <- ggplot(user_type_v3, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")))) +
+  geom_line(mapping = aes(y = as.duration(avg_ride_length_member)/60,
+                          color = "member",
+                          group = 1)) +
+  geom_line(mapping = aes(y = as.duration(avg_ride_length_casual)/60,
+                          color = "casual",
+                          group = 1)) +
+  geom_point(mapping = aes(y = as.duration(avg_ride_length_member)/60,
+                           color = "member",
+                           group = 1)) +
+  geom_point(mapping = aes(y = as.duration(avg_ride_length_casual)/60,
+                           color = "casual",
+                           group = 1)) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0,45)) + 
+  theme(axis.text.x = element_text(vjust = 2.5),
+        axis.title.y = element_text(vjust = 2.5)) +
+  theme(plot.title = element_text(vjust = 2.5)) +
+  theme(text = element_text(family = "serif")) +
+    labs(x = "Day of week", 
+       y = "Average ride length",
+       title = "Average ride length by user type during the week",
+       color = "") +
+  geom_text(aes(y = round(as.duration(avg_ride_length_casual)/60, digits = 2),
+                label = scales::comma(avg_ride_length_casual)),
+            size = 3,
+            vjust = -1,
+            family = "serif") +
+  geom_text(aes(y = round(as.duration(avg_ride_length_member)/60, digits = 2),
+                label = scales::comma(avg_ride_length_member)),
+            size = 3,
+            vjust = -1,
+            family = "serif")
