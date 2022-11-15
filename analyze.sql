@@ -30,3 +30,7 @@ count(trip_id) as num_of_rides
 from first-milestone.divvy_tripdata.tripdata_cleaned
 group by 1
 order by 2 desc
+
+select
+count(trip_id)/7 as avg_num_rides
+from first-milestone.divvy_tripdata.tripdata_cleaned
