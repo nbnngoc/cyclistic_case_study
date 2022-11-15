@@ -68,7 +68,7 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
                         fill = num_rides,
                         width = 0.6)) + 
   geom_bar(stat = 'identity',
-           fill = "white",
+           fill = c("#00BFC4"),
            color = "black") +
   geom_label(aes(label = scales::comma(num_rides)),
              fill = NA,
@@ -114,12 +114,12 @@ ggplot(day_of_week, aes(x = reorder(day_of_week, day_order),
 
 # 3.3- Chart 3: Number of rides by User type
 
-gp_3 <- ggplot(user_type, aes(x = member_casual, 
+ggplot(user_type, aes(x = member_casual, 
                                 y = num_rides,
                                 fill = num_rides,
                                 width = 0.6)) + 
   geom_bar(stat = 'identity',
-           fill = "white",
+           fill = c("#F8766D", "#00BFC4"),
            color = "black") +
   geom_label(aes(label = scales::comma(num_rides)),
              fill = NA,
@@ -142,11 +142,11 @@ gp_3 <- ggplot(user_type, aes(x = member_casual,
   
 # 3.4- Chart 4: Average ride length by User type
 
-gp_4 <- ggplot(user_type, aes(x = member_casual, 
+ggplot(user_type, aes(x = member_casual, 
                                 y = round(as.duration(avg_ride_length)/60, digits = 2),
                                 group = 1)) +
   geom_bar(stat = 'identity',
-           fill = "white",
+           fill = c("#F8766D", "#00BFC4"),
            color = "black",
            width = 0.5) +
   geom_label(aes(label = scales::comma(avg_ride_length)),
@@ -190,7 +190,11 @@ gp_5 <- ggplot(user_type_v3, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", 
                            group = 1)) +
   theme_minimal() +
   scale_y_continuous(limits = c(0,45)) + 
-  theme(axis.text.x = element_text(vjust = 2.5),
+  theme(legend.position = "top",
+        legend.justification = "center",
+        legend.box.margin=margin(-10,-10,-10,-10),
+        legend.text = element_text(size = 10),
+        axis.text.x = element_text(vjust = 2.5),
         axis.title.y = element_text(vjust = 2.5)) +
   theme(plot.title = element_text(vjust = 2.5)) +
   theme(text = element_text(family = "serif")) +
