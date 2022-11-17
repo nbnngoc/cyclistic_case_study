@@ -148,7 +148,11 @@ gp_3 <- ggplot(user_type_v4, aes(x = "",
 
 # 3.4- Chart 4: Number of rides by User type during the week
 
-ggplot(user_type_v5, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")),
+user_type_v5 <- tripdata %>% 
+  group_by(day_of_week, member_casual) %>% 
+  summarise(num_rides = n_distinct(trip_id))
+
+gp_4 <- ggplot(user_type_v5, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")),
                          y = num_rides,
                          fill = member_casual)) +
   theme_minimal() +
@@ -176,7 +180,7 @@ ggplot(user_type_v5, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "
   
 # 3.5- Chart 5: Average ride length by User type
 
-gp_4 <- ggplot(user_type, aes(x = member_casual, 
+gp_5 <- ggplot(user_type, aes(x = member_casual, 
                                 y = round(as.duration(avg_ride_length)/60, digits = 2),
                                 group = 1)) +
   geom_bar(stat = 'identity',
@@ -209,7 +213,7 @@ user_type_v3 <- pivot_wider(user_type_v2,
                             values_from = avg_ride_length,
                             names_prefix = "avg_ride_length_")
 
-gp_5 <- ggplot(user_type_v3, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")))) +
+gp_6 <- ggplot(user_type_v3, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")))) +
   geom_line(mapping = aes(y = as.duration(avg_ride_length_member)/60,
                           color = "member",
                           group = 1)) +
