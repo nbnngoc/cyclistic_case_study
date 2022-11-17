@@ -145,8 +145,36 @@ gp_3 <- ggplot(user_type_v4, aes(x = "",
        x = "",
        title = "Percentage of rides by user type",
        fill = "")
+
+# 3.4- Chart 4: Number of rides by User type during the week
+
+ggplot(user_type_v5, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")),
+                         y = num_rides,
+                         fill = member_casual)) +
+  theme_minimal() +
+  geom_col(color = "black", 
+           position = "dodge2") +
+  theme(legend.position = "top",
+        legend.justification = "center",
+        legend.box.margin = margin(-10,-10,-10,-10),
+        legend.text = element_text(size = 10),
+        axis.text.x = element_text(vjust = 1.5),
+        axis.title.y = element_text(vjust = 1.5)) +
+  theme(plot.title = element_text(vjust = 1.5)) +
+  theme(text = element_text(family = "serif")) +
+  labs(x = "Day of week", 
+       y = "Number of rides",
+       title = "Number of rides by user type during the week",
+       fill = "") +
+  geom_text(aes(y = num_rides,
+                label = scales::comma(num_rides)),
+            size = 3,
+            vjust = -0.6,
+            position = position_dodge2(width = 0.9),
+            family = "serif") +
+  scale_y_continuous(labels = scales::comma)
   
-# 3.4- Chart 4: Average ride length by User type
+# 3.5- Chart 5: Average ride length by User type
 
 gp_4 <- ggplot(user_type, aes(x = member_casual, 
                                 y = round(as.duration(avg_ride_length)/60, digits = 2),
@@ -170,7 +198,7 @@ gp_4 <- ggplot(user_type, aes(x = member_casual,
        y = "Average ride length") +
   ggtitle("Average ride length by user type")
 
-# 3.5- Chart 5: Average ride length by user type during the week
+# 3.6- Chart 6: Average ride length by User type during the week
 
 user_type_v2 <- tripdata %>% 
   group_by(day_of_week, member_casual) %>% 
@@ -198,7 +226,7 @@ gp_5 <- ggplot(user_type_v3, aes(x = factor(day_of_week, c("Sun", "Mon", "Tue", 
   scale_y_continuous(limits = c(0,45)) + 
   theme(legend.position = "top",
         legend.justification = "center",
-        legend.box.margin=margin(-10,-10,-10,-10),
+        legend.box.margin = margin(-10,-10,-10,-10),
         legend.text = element_text(size = 10),
         axis.text.x = element_text(vjust = 1.5),
         axis.title.y = element_text(vjust = 1.5)) +
