@@ -1,3 +1,5 @@
+--Unite files into a single table
+
 (
 select
 ride_id as trip_id,
@@ -15,6 +17,8 @@ end_time as ended_at,
 usertype as member_casual
 from first-milestone.divvy_tripdata.tripdata_2019_q4
 )
+
+--Perform data cleaning
 
 select
 trip_id,
