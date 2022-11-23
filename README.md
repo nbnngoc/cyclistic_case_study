@@ -1,1 +1,1 @@
-# gwg_case_study_1
+# cyclistic_case_study
